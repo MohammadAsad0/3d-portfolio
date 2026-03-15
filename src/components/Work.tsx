@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward, MdArrowOutward } from "react-icons/md";
@@ -8,21 +8,21 @@ const aiProjects = [
     title: "Automatic Grading of Short Answers",
     category: "NLP + Deep Learning",
     tools: "Python, NLP, Sentence Embeddings, React, Flask",
-    image: "/images/preview.png",
+    image: "/images/work/asag.png",
     link: "https://github.com/MohammadAsad0/FYP-ASAG",
   },
   {
     title: "Medical Diagnosis using Bayesian Network",
     category: "Machine Learning",
     tools: "Python, Bayesian Networks, Logistic Regression, XGBoost",
-    image: "/images/placeholder.webp",
+    image: "/images/work/medical_diagnosis.png",
     link: "https://github.com/MohammadAsad0/Medical-Diagnosis-Risk-Scoring-using-Bayesian-Networks",
   },
   {
     title: "Natural Language Generation for Data-to-Text",
     category: "LLMs + NLP",
     tools: "Python, LLMs, Prompt Engineering, Summarization, Hallucination Reduction",
-    image: "/images/placeholder.webp",
+    image: "/images/work/nlg.png",
     link: "https://github.com/MohammadAsad0/Final-Data-Mining-Project",
   },
   {
@@ -36,7 +36,7 @@ const aiProjects = [
     title: "Vehicle Counting & Classification",
     category: "Computer Vision",
     tools: "Python, OpenCV, ROI Tracking, Classification",
-    image: "/images/placeholder.webp",
+    image: "/images/work/vehicle_counting.png",
   },
 ];
 
@@ -48,23 +48,23 @@ const devProjects = [
     image: "/images/work/ahbs.png",
   },
   {
-    title: "Cross-Border Finance App",
+    title: "Finance App (Metal)",
     category: "Fintech Mobile Application",
-    tools: "React Native, Stripe SDK, Plaid SDK",
-    image: "/images/radix.png",
+    tools: "React Native, React.js, Stripe SDK, Plaid SDK",
+    image: "/images/work/metal.png",
   },
   {
     title: "Encrypted QR Vault",
     category: "Secure Web Application",
-    tools: "MERN Stack, Authentication, QR-based File Sharing",
-    image: "/images/placeholder.webp",
+    tools: "MERN Stack (MongoDB, Express.js, React.js, Node.js), Authentication, QR-based File Sharing",
+    image: "/images/work/vault.png",
     link: "https://github.com/MohammadAsad0/EncryptedVault",
   },
   {
     title: "Media Player",
     category: "Android Application",
-    tools: "Java, Firebase, Android",
-    image: "/images/sapphire.png",
+    tools: "Java, Firebase, Android Studio",
+    image: "/images/work/media_player.png",
   },
 ];
 
@@ -111,6 +111,25 @@ const Work = () => {
       currentIndex === projects.length - 1 ? 0 : currentIndex + 1;
     goToSlide(newIndex);
   }, [currentIndex, goToSlide, projects.length]);
+
+  // Touch / swipe support
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+  const SWIPE_THRESHOLD = 40;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    // Only treat as a horizontal swipe when it is more horizontal than vertical
+    if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) goToNext();
+    else goToPrev();
+  };
 
   return (
     <div className="work-section" id="work">
@@ -163,7 +182,11 @@ const Work = () => {
           </button>
 
           {/* Slides */}
-          <div className="carousel-track-container">
+          <div
+            className="carousel-track-container"
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <div
               key={activeStack}
               className={`carousel-track ${isSwitchingStack ? "carousel-track-no-transition" : ""}`}

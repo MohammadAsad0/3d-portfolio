@@ -186,9 +186,10 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   min-width: 0;
   overflow: hidden;
+  height: 340px;
 }
 
 /* ── Navigation Arrows ── */
@@ -197,8 +198,8 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 14, 23, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #eae5ec;
   width: 50px;
   height: 50px;
@@ -210,6 +211,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
 }
 
 .carousel-arrow:hover {
@@ -261,6 +263,7 @@
 .work-image {
   display: flex;
   width: 100%;
+  height: 100%;
   justify-content: center;
 }
 
@@ -268,8 +271,11 @@
   position: relative;
   display: block;
   width: 100%;
+  height: 100%;
   max-width: 640px;
   overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .work-link {
@@ -311,9 +317,8 @@
 .work-image img {
   display: block;
   width: 100%;
-  max-width: 100%;
-  max-height: 400px;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
   border-radius: 8px;
 }
 
@@ -370,6 +375,8 @@
 
   .carousel-image-wrapper {
     width: 100%;
+    height: 280px;
+    flex: none;
   }
 
   .carousel-arrow {
@@ -429,8 +436,8 @@
     padding: 30px 0;
   }
 
-  .work-image img {
-    max-height: 250px;
+  .carousel-image-wrapper {
+    height: 240px;
   }
 }
 

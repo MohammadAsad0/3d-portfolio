@@ -101,38 +101,46 @@ export default function Education() {
     });
     scene.add(new THREE.Points(pGeo, pMat));
 
-    /* lines */
+    /* lines — pre-allocated buffer updated in-place to avoid per-frame GC */
     const lineMat = new THREE.LineBasicMaterial({
       color: 0x5eead4,
       transparent: true,
       opacity: 0.07,
     });
-    let linesMesh: THREE.LineSegments | null = null;
     const CONNECT_DIST = isMobile ? 18 : 28;
+    const maxPairs = (COUNT * (COUNT - 1)) / 2;
+    const lBuf = new Float32Array(maxPairs * 6);
+    const lAttr = new THREE.BufferAttribute(lBuf, 3);
+    lAttr.setUsage(THREE.DynamicDrawUsage);
+    const lGeo = new THREE.BufferGeometry();
+    lGeo.setAttribute("position", lAttr);
+    const linesMesh = new THREE.LineSegments(lGeo, lineMat);
+    scene.add(linesMesh);
+
+    // Throttle line rebuilds on mobile (every 3rd frame) to save CPU
+    const LINE_THROTTLE = isMobile ? 3 : 1;
+    let lineFrame = 0;
 
     const rebuildLines = () => {
+      if (++lineFrame % LINE_THROTTLE !== 0) return;
       const pos = pGeo.attributes.position.array as Float32Array;
-      const pts: number[] = [];
+      let count = 0;
       for (let i = 0; i < COUNT; i++) {
         for (let j = i + 1; j < COUNT; j++) {
           const dx = pos[i * 3] - pos[j * 3];
           const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
           if (dx * dx + dy * dy < CONNECT_DIST * CONNECT_DIST) {
-            pts.push(
-              pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2],
-              pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2]
-            );
+            lBuf[count++] = pos[i * 3];
+            lBuf[count++] = pos[i * 3 + 1];
+            lBuf[count++] = pos[i * 3 + 2];
+            lBuf[count++] = pos[j * 3];
+            lBuf[count++] = pos[j * 3 + 1];
+            lBuf[count++] = pos[j * 3 + 2];
           }
         }
       }
-      if (linesMesh) scene.remove(linesMesh);
-      const lGeo = new THREE.BufferGeometry();
-      lGeo.setAttribute(
-        "position",
-        new THREE.BufferAttribute(new Float32Array(pts), 3)
-      );
-      linesMesh = new THREE.LineSegments(lGeo, lineMat);
-      scene.add(linesMesh);
+      lAttr.needsUpdate = true;
+      lGeo.setDrawRange(0, count / 3);
     };
 
     /* floating orb accents */
@@ -197,6 +205,7 @@ export default function Education() {
       window.removeEventListener("resize", doResize);
       pGeo.dispose();
       pMat.dispose();
+      lGeo.dispose();
       orbGeo.dispose();
       renderer.dispose();
     };

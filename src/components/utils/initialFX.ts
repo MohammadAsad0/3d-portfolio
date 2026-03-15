@@ -25,10 +25,11 @@ export function initialFX() {
 
   document.body.style.overflowY = "auto";
   getSmoother().paused(false);
-  // Recalculate all ScrollTrigger positions now that overflow is restored.
-  // Without this, triggers created while body was overflow:hidden have wrong
-  // scroll offsets and never fire, leaving animated elements at opacity:0.
-  requestAnimationFrame(() => ScrollTrigger.refresh());
+  // Wait for React to unmount the loading screen and the browser to settle
+  // layout before recalculating ScrollTrigger positions. A rAF alone is not
+  // enough — the React re-render that removes the loading overlay may not
+  // have painted yet, leaving triggers at stale offsets on mobile.
+  setTimeout(() => ScrollTrigger.refresh(), 300);
   document.getElementsByTagName("main")[0].classList.add("main-active");
   gsap.to("body", {
     backgroundColor: "#0a0e17",

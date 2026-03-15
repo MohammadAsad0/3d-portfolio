@@ -51,7 +51,6 @@
   transition: border-color 0.35s ease, transform 0.35s ease,
     box-shadow 0.35s ease;
   backdrop-filter: blur(6px);
-  transform-style: preserve-3d;
 }
 
 .edu-card::before {
@@ -213,6 +212,11 @@
 
   .edu-cards {
     grid-template-columns: 1fr;
+  }
+
+  /* backdrop-filter is expensive on mobile: skip the blur, keep the tint */
+  .edu-card {
+    backdrop-filter: none;
   }
 }
 
