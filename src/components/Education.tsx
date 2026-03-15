@@ -214,6 +214,27 @@ export default function Education() {
   /* ── GSAP scroll animations ── */
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const shouldBypassScrollAnimations =
+        ScrollTrigger.isTouch || window.matchMedia("(max-width: 900px)").matches;
+
+      if (shouldBypassScrollAnimations) {
+        // iOS Safari can miss ScrollTrigger starts after dynamic layout changes.
+        // Keep Education readable by forcing final states on touch/mobile.
+        gsap.set(".edu-title", { opacity: 1, y: 0 });
+        gsap.set(".edu-card", { opacity: 1, y: 0, rotateX: 0 });
+        gsap.set(".edu-tag", { opacity: 1, y: 0 });
+        gsap.set(".edu-progress-fill", { scaleX: 1, transformOrigin: "left center" });
+
+        gsap.to(".edu-badge-current", {
+          boxShadow: "0 0 18px rgba(94,234,212,0.55)",
+          duration: 1.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+        return;
+      }
+
       /* title reveal */
       gsap.fromTo(
         ".edu-title",
