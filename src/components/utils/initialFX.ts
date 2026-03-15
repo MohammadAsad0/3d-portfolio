@@ -1,8 +1,8 @@
-import { SplitText } from "gsap-trial/SplitText";
 import gsap from "gsap";
-import { smoother } from "../Navbar";
+import { getSmoother } from "./simpleSmoother";
+import { TextSplit } from "./textSplit";
 
-let splitInstances: SplitText[] = [];
+let splitInstances: TextSplit[] = [];
 let loopTimelines: gsap.core.Timeline[] = [];
 
 function resetInitialFXState() {
@@ -14,7 +14,7 @@ function resetInitialFXState() {
 }
 
 function createSplitText(target: string | string[], config: object) {
-  const instance = new SplitText(target, config);
+  const instance = new TextSplit(target, config);
   splitInstances.push(instance);
   return instance;
 }
@@ -23,7 +23,7 @@ export function initialFX() {
   resetInitialFXState();
 
   document.body.style.overflowY = "auto";
-  smoother.paused(false);
+  getSmoother().paused(false);
   document.getElementsByTagName("main")[0].classList.add("main-active");
   gsap.to("body", {
     backgroundColor: "#0a0e17",

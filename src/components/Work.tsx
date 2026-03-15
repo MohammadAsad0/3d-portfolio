@@ -45,7 +45,7 @@ const devProjects = [
     title: "Al-Habib Core Banking Trade Modules",
     category: "Enterprise Banking Platform",
     tools: "Vue.js, Java REST APIs, Node.js FSM, Microservices",
-    image: "/images/Maxlife.png",
+    image: "/images/work/ahbs.png",
   },
   {
     title: "Cross-Border Finance App",

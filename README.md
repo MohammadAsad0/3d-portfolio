@@ -5,7 +5,19 @@ Do check it out!
 
 ## Instructions 🛠️
 
-I have modified the gsap club plugins with the trial plugins, but with the trial plugin you cannot host it🔴. So for Club plugins, Check out here: https://gsap.com/docs/v3/Installation/
+This project now uses only deploy-safe packages and builds as a static Vite site.
+
+## Free Hosting
+
+The fastest free option for this repo is Vercel:
+
+1. Push the repository to GitHub.
+2. Import the repo at https://vercel.com/new.
+3. Keep the default Vite settings.
+4. Use `npm run build` as the build command if Vercel asks.
+5. Deploy.
+
+Vercel should detect the output directory as `dist` automatically.
 
 **Techstack** - React, TypeScript, GSAP, ThreeJS, WebGL, HTML, Css, JavaScript
 
