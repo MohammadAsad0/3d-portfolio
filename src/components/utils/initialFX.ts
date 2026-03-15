@@ -2,7 +2,26 @@ import { SplitText } from "gsap-trial/SplitText";
 import gsap from "gsap";
 import { smoother } from "../Navbar";
 
+let splitInstances: SplitText[] = [];
+let loopTimelines: gsap.core.Timeline[] = [];
+
+function resetInitialFXState() {
+  loopTimelines.forEach((timeline) => timeline.kill());
+  loopTimelines = [];
+
+  splitInstances.forEach((instance) => instance.revert());
+  splitInstances = [];
+}
+
+function createSplitText(target: string | string[], config: object) {
+  const instance = new SplitText(target, config);
+  splitInstances.push(instance);
+  return instance;
+}
+
 export function initialFX() {
+  resetInitialFXState();
+
   document.body.style.overflowY = "auto";
   smoother.paused(false);
   document.getElementsByTagName("main")[0].classList.add("main-active");
@@ -12,8 +31,8 @@ export function initialFX() {
     delay: 1,
   });
 
-  var landingText = new SplitText(
-    [".landing-info h3", ".landing-intro h2", ".landing-intro h1"],
+  const landingText = createSplitText(
+    [".landing-intro h2", ".landing-intro h1"],
     {
       type: "chars,lines",
       linesClass: "split-line",
@@ -33,11 +52,17 @@ export function initialFX() {
     }
   );
 
-  let TextProps = { type: "chars,lines", linesClass: "split-h2" };
+  const textProps = { type: "chars,lines", linesClass: "split-h2" };
+  const rolePrimary = createSplitText(".landing-h2-1", textProps);
+  const roleSecondary = createSplitText(".landing-h2-2", textProps);
+  const subtitlePrimary = createSplitText(".landing-h3-1", textProps);
+  const subtitleSecondary = createSplitText(".landing-h3-2", textProps);
 
-  var landingText2 = new SplitText(".landing-h2-info", TextProps);
+  const primaryChars = [...rolePrimary.chars, ...subtitlePrimary.chars];
+  const secondaryChars = [...roleSecondary.chars, ...subtitleSecondary.chars];
+
   gsap.fromTo(
-    landingText2.chars,
+    primaryChars,
     { opacity: 0, y: 80, filter: "blur(5px)" },
     {
       opacity: 1,
@@ -45,7 +70,20 @@ export function initialFX() {
       filter: "blur(0px)",
       ease: "power3.inOut",
       y: 0,
-      stagger: 0.025,
+      stagger: 0.03,
+      delay: 0.3,
+    }
+  );
+
+  gsap.fromTo(
+    [".resume-button-dev"],
+    { opacity: 0, y: 80, filter: "blur(5px)" },
+    {
+      opacity: 1,
+      duration: 1.2,
+      filter: "blur(0px)",
+      ease: "power3.inOut",
+      y: 0,
       delay: 0.3,
     }
   );
@@ -72,65 +110,128 @@ export function initialFX() {
     }
   );
 
-  var landingText3 = new SplitText(".landing-h2-info-1", TextProps);
-  var landingText4 = new SplitText(".landing-h2-1", TextProps);
-  var landingText5 = new SplitText(".landing-h2-2", TextProps);
-
-  LoopText(landingText2, landingText3);
-  LoopText(landingText4, landingText5);
+  loopTimelines.push(createSyncedSwitchTimeline(primaryChars, secondaryChars));
 }
 
-function LoopText(Text1: SplitText, Text2: SplitText) {
-  var tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
-  const delay = 4;
-  const delay2 = delay * 2 + 1;
+function createSyncedSwitchTimeline(
+  primaryChars: Element[],
+  secondaryChars: Element[]
+) {
+  const duration = 1.2;
+  const showSecondaryAt = 4;
+  const showPrimaryAt = 10;
+  const primaryResume = ".resume-button-dev";
+  const secondaryResume = ".resume-button-ai";
 
-  tl.fromTo(
-    Text2.chars,
-    { opacity: 0, y: 80 },
+  gsap.set(primaryChars, { opacity: 1, y: 0 });
+  gsap.set(secondaryChars, { opacity: 0, y: 80 });
+  gsap.set(primaryResume, { autoAlpha: 1, y: 0 });
+  gsap.set(secondaryResume, { autoAlpha: 0, y: 80 });
+  gsap.set(".resume-button-dev", { pointerEvents: "auto" });
+  gsap.set(".resume-button-ai", { pointerEvents: "none" });
+
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+
+  tl.to(
+    primaryChars,
     {
-      opacity: 1,
-      duration: 1.2,
+      y: -80,
+      opacity: 0,
+      duration,
       ease: "power3.inOut",
-      y: 0,
-      stagger: 0.1,
-      delay: delay,
+      stagger: 0.03,
     },
-    0
+    showSecondaryAt
   )
-    .fromTo(
-      Text1.chars,
-      { y: 80 },
-      {
-        duration: 1.2,
-        ease: "power3.inOut",
-        y: 0,
-        stagger: 0.1,
-        delay: delay2,
-      },
-      1
-    )
-    .fromTo(
-      Text1.chars,
-      { y: 0 },
+    .to(
+      primaryResume,
       {
         y: -80,
-        duration: 1.2,
+        autoAlpha: 0,
+        duration,
         ease: "power3.inOut",
-        stagger: 0.1,
-        delay: delay,
       },
-      0
+      showSecondaryAt
+    )
+    .fromTo(
+      secondaryChars,
+      { y: 80, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration,
+        ease: "power3.inOut",
+        stagger: 0.03,
+        immediateRender: false,
+      },
+      showSecondaryAt
+    )
+    .fromTo(
+      secondaryResume,
+      { y: 80, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration,
+        ease: "power3.inOut",
+        immediateRender: false,
+      },
+      showSecondaryAt
+    )
+    .add(() => {
+      gsap.set(".resume-button-dev", { pointerEvents: "none" });
+      gsap.set(".resume-button-ai", { pointerEvents: "auto" });
+    }, showSecondaryAt)
+    .to(
+      secondaryChars,
+      {
+        y: -80,
+        opacity: 0,
+        duration,
+        ease: "power3.inOut",
+        stagger: 0.03,
+      },
+      showPrimaryAt
     )
     .to(
-      Text2.chars,
+      secondaryResume,
       {
         y: -80,
-        duration: 1.2,
+        autoAlpha: 0,
+        duration,
         ease: "power3.inOut",
-        stagger: 0.1,
-        delay: delay2,
       },
-      1
-    );
+      showPrimaryAt
+    )
+    .fromTo(
+      primaryChars,
+      { y: 80, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration,
+        ease: "power3.inOut",
+        stagger: 0.03,
+        immediateRender: false,
+      },
+      showPrimaryAt
+    )
+    .fromTo(
+      primaryResume,
+      { y: 80, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration,
+        ease: "power3.inOut",
+        immediateRender: false,
+      },
+      showPrimaryAt
+    )
+    .add(() => {
+      gsap.set(".resume-button-dev", { pointerEvents: "auto" });
+      gsap.set(".resume-button-ai", { pointerEvents: "none" });
+    }, showPrimaryAt);
+
+  return tl;
 }

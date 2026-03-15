@@ -9,11 +9,14 @@ const Cursor = () => {
     const cursor = cursorRef.current!;
     const mousePos = { x: 0, y: 0 };
     const cursorPos = { x: 0, y: 0 };
-    document.addEventListener("mousemove", (e) => {
+    const onMouseMove = (e: MouseEvent) => {
       mousePos.x = e.clientX;
       mousePos.y = e.clientY;
-    });
-    requestAnimationFrame(function loop() {
+    };
+    document.addEventListener("mousemove", onMouseMove);
+
+    let rafId = 0;
+    const loop = () => {
       if (!hover) {
         const delay = 6;
         cursorPos.x += (mousePos.x - cursorPos.x) / delay;
@@ -21,11 +24,14 @@ const Cursor = () => {
         gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.1 });
         // cursor.style.transform = `translate(${cursorPos.x}px, ${cursorPos.y}px)`;
       }
-      requestAnimationFrame(loop);
-    });
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+
+    const cleanups: Array<() => void> = [];
     document.querySelectorAll("[data-cursor]").forEach((item) => {
       const element = item as HTMLElement;
-      element.addEventListener("mouseover", (e: MouseEvent) => {
+      const onMouseOver = (e: MouseEvent) => {
         const target = e.currentTarget as HTMLElement;
         const rect = target.getBoundingClientRect();
 
@@ -40,12 +46,26 @@ const Cursor = () => {
         if (element.dataset.cursor === "disable") {
           cursor.classList.add("cursor-disable");
         }
-      });
-      element.addEventListener("mouseout", () => {
+      };
+
+      const onMouseOut = () => {
         cursor.classList.remove("cursor-disable", "cursor-icons");
         hover = false;
+      };
+
+      element.addEventListener("mouseover", onMouseOver);
+      element.addEventListener("mouseout", onMouseOut);
+      cleanups.push(() => {
+        element.removeEventListener("mouseover", onMouseOver);
+        element.removeEventListener("mouseout", onMouseOut);
       });
     });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      document.removeEventListener("mousemove", onMouseMove);
+      cleanups.forEach((cleanup) => cleanup());
+    };
   }, []);
 
   return <div className="cursor-main" ref={cursorRef}></div>;

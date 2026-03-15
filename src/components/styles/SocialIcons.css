@@ -43,16 +43,23 @@
   will-change: left, top;
   transition: transform 0.3s ease-out;
 }
+.resume-switch {
+  position: absolute;
+  z-index: 99;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  right: 0;
+}
+
 .resume-button {
   position: absolute;
   z-index: 99;
   display: flex;
   gap: 5px;
-  bottom: 40px;
+  bottom: 0;
   right: 0;
   width: auto;
   text-wrap: nowrap;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
@@ -61,6 +68,16 @@
   transition: 0.5s;
   transform-origin: left bottom;
   transform: translateX(100%) rotateZ(-90deg);
+  will-change: transform, opacity;
+}
+
+.resume-button-dev {
+  opacity: 1;
+}
+
+.resume-button-ai {
+  opacity: 0;
+  pointer-events: none;
 }
 .resume-button:hover {
   color: #fff;
@@ -99,5 +116,21 @@ div.resume-button span {
   div.resume-button span {
     font-size: 23px;
     margin-top: -1.5px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .resume-switch {
+    right: 6px;
+  }
+
+  .resume-button {
+    letter-spacing: 2px;
+    font-size: 13px;
+    line-height: 13px;
+  }
+
+  div.resume-button span {
+    font-size: 15px;
   }
 }

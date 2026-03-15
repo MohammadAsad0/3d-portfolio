@@ -3,6 +3,7 @@ import About from "./About";
 import Career from "./Career";
 import Contact from "./Contact";
 import Cursor from "./Cursor";
+import Education from "./Education";
 import Landing from "./Landing";
 import Navbar from "./Navbar";
 import SocialIcons from "./SocialIcons";
@@ -27,7 +28,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
     return () => {
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [isDesktopView]);
+  }, []);
 
   return (
     <div className="container-main">
@@ -37,7 +38,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       {isDesktopView && children}
       <div id="smooth-wrapper">
         <div id="smooth-content">
-          <div className="container-main">
+          <main className="container-main" role="main">
             <Landing>{!isDesktopView && children}</Landing>
             <About />
             <WhatIDo />
@@ -48,8 +49,9 @@ const MainContainer = ({ children }: PropsWithChildren) => {
                 <TechStack />
               </Suspense>
             )}
+            <Education />
             <Contact />
-          </div>
+          </main>
         </div>
       </div>
     </div>

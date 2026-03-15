@@ -6,11 +6,19 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          Full Stack Developer with 4+ years of experience building scalable web
-          applications using React.js, Angular, Next.js, Node.js, and NestJS. Skilled
-          in microservices architecture, CMS development, and low-code platforms.
-          Passionate about creating high-performance, production-ready solutions
-          from concept to deployment.
+          <span className="about-accent">Full-Stack Developer</span> and{" "}
+          <span className="about-accent">AI/ML Engineer</span> with a track
+          record of shipping at scale — 20+ core banking trade modules at{" "}
+          <span className="about-accent">Bank AL-Habib</span> using Vue.js,
+          Java microservices &amp; Node.js FSMs, and a React Native fintech app
+          handling cross-border payments across 5+ countries. On the AI side: Machine learning, 
+          NLP, computer vision, and LLM systems built in Python — from
+          automated short-answer grading to Bayesian medical diagnosis.
+          Currently deepening both disciplines through {" "}
+          <span className="about-accent">
+            Master of Science in Computer Science (AI) at York University
+          </span>
+          .
         </p>
       </div>
     </div>

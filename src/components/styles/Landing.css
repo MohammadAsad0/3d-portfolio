@@ -32,7 +32,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 130px;
+  height: clamp(90px, 16vh, 130px);
   background-image: linear-gradient(0deg,
       transparent,
       var(--backgroundColor) 70%);
@@ -178,7 +178,7 @@
 .landing-intro h2 {
   margin: 0;
   color: var(--accentColor);
-  font-size: 22px;
+  font-size: clamp(16px, 3.8vw, 22px);
   font-weight: 300;
   letter-spacing: 2px;
 }
@@ -186,8 +186,8 @@
 .landing-intro h1 {
   margin: 0;
   letter-spacing: 2px;
-  font-size: 28px;
-  line-height: 28px;
+  font-size: clamp(28px, 7.2vw, 36px);
+  line-height: 1;
   font-weight: 500;
   font-family: "Geist", sans-serif;
 }
@@ -206,11 +206,21 @@
 }
 
 .landing-info h3 {
-  font-size: 22px;
+  font-size: clamp(16px, 3.8vw, 22px);
   letter-spacing: 2px;
   font-weight: 300;
   color: var(--accentColor);
   margin: 0;
+}
+
+.landing-info-subtitle {
+  position: relative;
+}
+
+.landing-h3-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .landing-info h2 {
@@ -219,8 +229,8 @@
   margin-left: 20px;
   font-family: "Geist", sans-serif;
   font-weight: 600;
-  font-size: 32px;
-  line-height: 40px;
+  font-size: clamp(30px, 7vw, 38px);
+  line-height: 1.1;
   position: relative;
   display: flex;
   flex-wrap: nowrap;
@@ -234,14 +244,51 @@
 }
 
 h2.landing-info-h2 {
-  color: #14b8a6;
-  font-size: 42px;
+  color: #9aefe6;
+  font-size: clamp(36px, 9vw, 46px);
   width: 120%;
   margin: 0;
   font-family: "Geist", sans-serif;
   font-weight: 600;
   position: relative;
   margin-left: -5px;
+}
+
+@media screen and (max-width: 767px) {
+  .landing-container {
+    width: min(var(--cWidth), calc(100% - 24px));
+  }
+
+  .character-model {
+    height: min(72vh, 560px);
+    bottom: 20px;
+  }
+
+  .character-hover {
+    width: min(58vw, 240px);
+    height: min(58vw, 240px);
+  }
+
+  .landing-intro {
+    top: 11%;
+  }
+
+  .landing-info {
+    width: 100%;
+    text-align: center;
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+
+  .landing-info h2 {
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  h2.landing-info-h2 {
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+  }
 }
 
 .landing-h2-2 {
@@ -256,7 +303,7 @@ h2.landing-info-h2 {
   height: 120%;
   z-index: 3;
   background-image: linear-gradient(0deg,
-      var(--backgroundColor) 40%,
+      var(--backgroundColor) 30%,
       rgba(0, 0, 0, 0) 110%);
   top: 0;
   left: 0;

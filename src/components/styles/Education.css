@@ -1,0 +1,240 @@
+/* ── Education Section ── */
+.edu-section {
+  position: relative;
+  padding: 100px 0 120px;
+  margin: auto;
+  overflow-x: clip;
+  overflow-y: visible;
+  perspective: 1000px;
+}
+
+.edu-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Title ── */
+.edu-title {
+  font-size: clamp(20px, 4vw, 25px);
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-weight: 400;
+  color: var(--accentColor);
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+}
+
+/* ── Cards Grid ── */
+.edu-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Card ── */
+.edu-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 36px;
+  position: relative;
+  overflow: visible;
+  opacity: 1;
+  transition: border-color 0.35s ease, transform 0.35s ease,
+    box-shadow 0.35s ease;
+  backdrop-filter: blur(6px);
+  transform-style: preserve-3d;
+}
+
+.edu-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: radial-gradient(
+    ellipse at top left,
+    rgba(94, 234, 212, 0.04) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.edu-card-current {
+  border-color: rgba(94, 234, 212, 0.22);
+}
+
+.edu-card-current::before {
+  background: radial-gradient(
+    ellipse at top left,
+    rgba(94, 234, 212, 0.09) 0%,
+    transparent 65%
+  );
+}
+
+.edu-card:hover {
+  border-color: rgba(94, 234, 212, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(94, 234, 212, 0.05);
+}
+
+/* ── Card Header ── */
+.edu-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.edu-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 5px 13px;
+  border-radius: 999px;
+}
+
+.edu-badge-current {
+  background: rgba(94, 234, 212, 0.1);
+  color: var(--accentColor);
+  border: 1px solid rgba(94, 234, 212, 0.35);
+}
+
+.edu-badge-done {
+  background: rgba(148, 163, 184, 0.07);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.edu-period {
+  font-size: 13px;
+  font-weight: 400;
+  color: #475569;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+/* ── Degree & Spec ── */
+.edu-degree {
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 600;
+  margin: 0 0 7px;
+  line-height: 1.1;
+  letter-spacing: 0.3px;
+}
+
+.edu-spec {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--accentColor);
+  margin: 0 0 20px;
+  opacity: 0.85;
+}
+
+/* ── Institution ── */
+.edu-institution {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 24px;
+}
+
+.edu-inst-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #e2e8f0;
+  letter-spacing: 0.2px;
+}
+
+.edu-inst-loc {
+  font-size: 13px;
+  font-weight: 300;
+  color: #475569;
+}
+
+/* ── Progress Bar ── */
+.edu-progress {
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.edu-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0d9488, #22d3ee);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(94, 234, 212, 0.45);
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+/* ── Course Tags ── */
+.edu-courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.edu-tag {
+  font-size: 12px;
+  font-weight: 400;
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.07);
+  border: 1px solid rgba(148, 163, 184, 0.13);
+  border-radius: 6px;
+  padding: 4px 11px;
+  letter-spacing: 0.3px;
+  opacity: 1;
+  transition: background 0.2s, color 0.2s;
+}
+
+.edu-tag:hover {
+  background: rgba(94, 234, 212, 0.08);
+  color: var(--accentColor);
+  border-color: rgba(94, 234, 212, 0.25);
+}
+
+/* ── Responsive ── */
+@media only screen and (max-width: 900px) {
+  .edu-section {
+    padding: 70px 0 90px;
+  }
+
+  .edu-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .edu-section {
+    padding: 60px 0 70px;
+  }
+
+  .edu-card {
+    padding: 24px 20px;
+  }
+
+  .edu-title {
+    margin-bottom: 40px;
+  }
+
+  .edu-degree {
+    font-size: 20px;
+  }
+
+  .edu-card-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}

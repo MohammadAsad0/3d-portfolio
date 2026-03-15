@@ -24,6 +24,48 @@ const imageUrls = [
 ];
 const textures = imageUrls.map((url) => textureLoader.load(url));
 
+const aiStackLabels = [
+  "Python",
+  "TensorFlow",
+  "PyTorch",
+  "Scikit-learn",
+  "OpenCV",
+  "Pandas",
+  "NLP",
+  "LLMs",
+];
+
+const buildLabelTexture = (label: string) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    return textureLoader.load("/images/placeholder.webp");
+  }
+
+  const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+  gradient.addColorStop(0, "#0b1220");
+  gradient.addColorStop(1, "#1f2937");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, 512, 512);
+
+  ctx.strokeStyle = "rgba(148, 163, 184, 0.8)";
+  ctx.lineWidth = 8;
+  ctx.strokeRect(24, 24, 464, 464);
+
+  ctx.fillStyle = "#e2e8f0";
+  ctx.font = "700 56px Geist, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, 256, 256);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
+};
+
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
 const spheres = [...Array(30)].map(() => ({
@@ -124,8 +166,56 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
   );
 }
 
+type StackCanvasProps = {
+  materials: THREE.MeshPhysicalMaterial[];
+  isActive: boolean;
+};
+
+function StackCanvas({ materials, isActive }: StackCanvasProps) {
+  return (
+    <Canvas
+      shadows
+      gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
+      camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
+      onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
+      className="tech-canvas"
+    >
+      <ambientLight intensity={1} />
+      <spotLight
+        position={[20, 20, 25]}
+        penumbra={1}
+        angle={0.2}
+        color="white"
+        castShadow
+        shadow-mapSize={[512, 512]}
+      />
+      <directionalLight position={[0, 5, -4]} intensity={2} />
+      <Physics gravity={[0, 0, 0]}>
+        <Pointer isActive={isActive} />
+        {spheres.map((props, i) => (
+          <SphereGeo
+            key={i}
+            {...props}
+            material={materials[Math.floor(Math.random() * materials.length)]}
+            isActive={isActive}
+          />
+        ))}
+      </Physics>
+      <Environment
+        files="/models/char_enviorment.hdr"
+        environmentIntensity={0.5}
+        environmentRotation={[0, 4, 2]}
+      />
+      <EffectComposer enableNormalPass={false}>
+        <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
+      </EffectComposer>
+    </Canvas>
+  );
+}
+
 const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
+  const [activeStack, setActiveStack] = useState<"dev" | "ai">("dev");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -166,47 +256,54 @@ const TechStack = () => {
     );
   }, []);
 
-  return (
-    <div className="techstack">
-      <h2> My Techstack</h2>
+  const aiMaterials = useMemo(() => {
+    const aiTextures = aiStackLabels.map((label) => buildLabelTexture(label));
+    return aiTextures.map(
+      (texture) =>
+        new THREE.MeshPhysicalMaterial({
+          map: texture,
+          emissive: "#ffffff",
+          emissiveMap: texture,
+          emissiveIntensity: 0.28,
+          metalness: 0.5,
+          roughness: 1,
+          clearcoat: 0.1,
+        })
+    );
+  }, []);
 
-      <Canvas
-        shadows
-        gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
-        camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
-        onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
-        className="tech-canvas"
-      >
-        <ambientLight intensity={1} />
-        <spotLight
-          position={[20, 20, 25]}
-          penumbra={1}
-          angle={0.2}
-          color="white"
-          castShadow
-          shadow-mapSize={[512, 512]}
-        />
-        <directionalLight position={[0, 5, -4]} intensity={2} />
-        <Physics gravity={[0, 0, 0]}>
-          <Pointer isActive={isActive} />
-          {spheres.map((props, i) => (
-            <SphereGeo
-              key={i}
-              {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
-              isActive={isActive}
-            />
-          ))}
-        </Physics>
-        <Environment
-          files="/models/char_enviorment.hdr"
-          environmentIntensity={0.5}
-          environmentRotation={[0, 4, 2]}
-        />
-        <EffectComposer enableNormalPass={false}>
-          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
-        </EffectComposer>
-      </Canvas>
+  return (
+    <div className="techstack" id="techstack">
+      <div className="techstack-header">
+        <h2 className="techstack-title">
+          My <span>Tech Stack</span>
+        </h2>
+        <div className="techstack-toggle" role="tablist" aria-label="Tech stack switch">
+          <button
+            type="button"
+            className={`techstack-toggle-btn ${activeStack === "dev" ? "techstack-toggle-btn-active" : ""}`}
+            onClick={() => setActiveStack("dev")}
+            role="tab"
+            aria-selected={activeStack === "dev"}
+          >
+            Dev Stack
+          </button>
+          <button
+            type="button"
+            className={`techstack-toggle-btn ${activeStack === "ai" ? "techstack-toggle-btn-active" : ""}`}
+            onClick={() => setActiveStack("ai")}
+            role="tab"
+            aria-selected={activeStack === "ai"}
+          >
+            AI/ML Stack
+          </button>
+        </div>
+      </div>
+
+      <StackCanvas
+        materials={activeStack === "dev" ? materials : aiMaterials}
+        isActive={isActive}
+      />
     </div>
   );
 };

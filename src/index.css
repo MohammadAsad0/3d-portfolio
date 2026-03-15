@@ -22,6 +22,7 @@
   --backgroundColor: #0a0e17;
   --vh: 100vh;
   --vh: 100svh;
+  --vh: 100dvh;
 }
 
 h1,
@@ -66,6 +67,7 @@ main {
 body {
   margin: 0;
   height: auto;
+  min-height: 100%;
   background-color: #050810;
   flex-grow: 1;
   --cWidth: calc(100% - 30px);
@@ -113,15 +115,69 @@ body {
   margin-bottom: -100px;
 }
 
-.techstack h2 {
-  font-size: 80px;
-  text-align: center;
+
+.techstack-header {
   position: absolute;
-  width: 100%;
-  top: 120px;
-  left: 0;
-  font-weight: 400;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  width: min(980px, calc(100% - 40px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.techstack-title {
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 46px);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
+}
+
+.techstack-title span {
+  color: var(--accentColor);
+}
+
+.techstack-toggle {
+  position: static;
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 999px;
+  background: rgba(10, 14, 23, 0.65);
+  border: 1px solid rgba(94, 234, 212, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.techstack-toggle-btn {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: transparent;
+  color: #cbd5e1;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-family: "Geist", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.techstack-toggle-btn:hover {
+  border-color: rgba(94, 234, 212, 0.7);
+  color: #f8fafc;
+}
+
+.techstack-toggle-btn-active {
+  background: linear-gradient(135deg, #14b8a6, #22d3ee);
+  color: #04111a;
+  border-color: transparent;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
 }
 
 @media screen and (min-width: 768px) {
@@ -131,7 +187,44 @@ body {
 }
 
 @media screen and (max-width: 900px) {
-  .techstack h2 {
-    font-size: 40px;
+  .techstack-header {
+    top: 22px;
+    width: calc(100% - 30px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .techstack-title {
+    text-align: center;
+    font-size: clamp(24px, 7vw, 36px);
+  }
+
+  .techstack-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .techstack-toggle-btn {
+    width: 50%;
+    max-width: 180px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+  .techstack {
+    margin-top: 24px;
+  }
+
+  .techstack-toggle {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .techstack-toggle-btn {
+    letter-spacing: 0.3px;
   }
 }

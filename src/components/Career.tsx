@@ -15,43 +15,46 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Full Stack Developer</h4>
-                <h5>Ikshan</h5>
+                <h4>Full-Stack Developer (Senior IT Officer)</h4>
+                <h5>Bank AL-Habib Limited</h5>
               </div>
-              <h3>2020</h3>
+              <h3>2025</h3>
             </div>
             <p>
-              Built 6+ complete applications using React.js. Integrated backend
-              authentication using Node.js & MongoDB. Created responsive UI/UX
-              and designed wireframes using Figma.
+              Developed and integrated 20+ trade modules for core banking,
+              delivered Vue.js interfaces, and optimized Java REST APIs with
+              FSM (Node.js) integrations. Contributed to a monolith-to-
+              microservices transition that reduced downtime and improved
+              transaction reliability and processing speed.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Senior Full Stack Developer</h4>
-                <h5>Monocept (Max Life Insurance)</h5>
+                <h4>Associate Software Engineer</h4>
+                <h5>Encore Pay</h5>
               </div>
-              <h3>2021</h3>
+              <h3>2023</h3>
             </div>
             <p>
-              Led two development teams on Mpro, a large-scale insurance
-              operations platform. Developed multiple modules using React.js &
-              migrated critical functionalities to Node.js microservices.
+              Implemented Stripe and Plaid SDKs in a React Native finance app
+              to support secure domestic and international transactions across
+              5+ countries, while improving UX through iterative product
+              feedback and stakeholder collaboration.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Full Stack Developer</h4>
-                <h5>Logic Loop</h5>
+                <h4>Android Developer Intern</h4>
+                <h5>Hysab Kytab - Jaffer Business System</h5>
               </div>
-              <h3>NOW</h3>
+              <h3>2023</h3>
             </div>
             <p>
-              Building Solid, a proprietary low-code platform using Angular,
-              Next.js & NestJS. Delivering production-ready CMS-based projects
-              including e-commerce, CRM, and import-export automation systems.
+              Implemented new Android features, fixed critical issues, and
+              supported migration from Java to Kotlin to improve code quality,
+              maintainability, and app stability.
             </p>
           </div>
         </div>
