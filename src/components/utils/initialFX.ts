@@ -1,4 +1,5 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { getSmoother } from "./simpleSmoother";
 import { TextSplit } from "./textSplit";
 
@@ -24,6 +25,10 @@ export function initialFX() {
 
   document.body.style.overflowY = "auto";
   getSmoother().paused(false);
+  // Recalculate all ScrollTrigger positions now that overflow is restored.
+  // Without this, triggers created while body was overflow:hidden have wrong
+  // scroll offsets and never fire, leaving animated elements at opacity:0.
+  requestAnimationFrame(() => ScrollTrigger.refresh());
   document.getElementsByTagName("main")[0].classList.add("main-active");
   gsap.to("body", {
     backgroundColor: "#0a0e17",
