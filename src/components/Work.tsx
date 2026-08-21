@@ -5,6 +5,12 @@ import { MdArrowBack, MdArrowForward, MdArrowOutward } from "react-icons/md";
 
 const aiProjects = [
   {
+    title: "Clickbait Detection Model",
+    category: "LLMs + NLP",
+    tools: "Python, LLMs, Prompt Engineering, Fine-tuning, Text Classification",
+    image: "/images/placeholder.webp",
+  },
+  {
     title: "Automatic Grading of Short Answers",
     category: "NLP + Deep Learning",
     tools: "Python, NLP, Sentence Embeddings, React, Flask",
@@ -41,6 +47,13 @@ const aiProjects = [
 ];
 
 const devProjects = [
+  {
+    title: "Elevate People — HR Consultancy Website",
+    category: "Marketing Website",
+    tools: "Next.js 16, React 19, TypeScript, Tailwind CSS, shadcn/ui, Resend, Zod",
+    image: "/images/placeholder.webp",
+    link: "https://github.com/MohammadAsad0/elevate-people",
+  },
   {
     title: "Al-Habib Core Banking Trade Modules",
     category: "Enterprise Banking Platform",
