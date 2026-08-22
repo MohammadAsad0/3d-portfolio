@@ -15,6 +15,12 @@ type Project = {
 
 const aiProjects: Project[] = [
   {
+    title: "Clickbait Detection Model",
+    category: "LLMs + NLP",
+    tools: "Python, LLMs, Prompt Engineering, Fine-tuning, Text Classification",
+    image: "/images/placeholder.webp",
+  },
+  {
     title: "Automatic Grading of Short Answers",
     category: "NLP + Deep Learning",
     tools: "Python, NLP, Sentence Embeddings, React, Flask",
@@ -70,6 +76,13 @@ const devProjects: Project[] = [
       "Built a production streaming platform focused on fast content discovery, responsive playback surfaces, and clean cross-device UX. The deployment pipeline uses Vercel for rapid releases and consistent performance in production.",
     link: "https://shiastream.com",
     ctaLabel: "View on Web",
+  },
+  {
+    title: "Elevate People — HR Consultancy Website",
+    category: "Marketing Website",
+    tools: "Next.js 16, React 19, TypeScript, Tailwind CSS, shadcn/ui, Resend, Zod",
+    image: "/images/placeholder.webp",
+    link: "https://github.com/MohammadAsad0/elevate-people",
   },
   {
     title: "Al-Habib Core Banking Trade Modules",
