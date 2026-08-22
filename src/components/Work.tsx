@@ -51,7 +51,7 @@ const devProjects = [
     title: "Elevate People — HR Consultancy Website",
     category: "Marketing Website",
     tools: "Next.js 16, React 19, TypeScript, Tailwind CSS, shadcn/ui, Resend, Zod",
-    image: "/images/placeholder.webp",
+    image: "/images/work/elevate_ss.png",
     link: "https://github.com/MohammadAsad0/elevate-people",
   },
   {
