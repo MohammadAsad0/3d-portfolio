@@ -3,12 +3,24 @@ import "./styles/Work.css";
 import WorkImage from "./WorkImage";
 import { MdArrowBack, MdArrowForward, MdArrowOutward } from "react-icons/md";
 
-const aiProjects = [
+type Project = {
+  title: string;
+  category: string;
+  tools: string;
+  image: string;
+  summary?: string;
+  link?: string;
+  ctaLabel?: string;
+};
+
+const aiProjects: Project[] = [
   {
     title: "Automatic Grading of Short Answers",
     category: "NLP + Deep Learning",
     tools: "Python, NLP, Sentence Embeddings, React, Flask",
     image: "/images/work/asag.png",
+    summary:
+      "Built an end-to-end grading assistant that evaluates short student answers against rubric-aligned reference responses. The system combines semantic similarity with supervised scoring models to improve grading consistency and reduce manual review time.",
     link: "https://github.com/MohammadAsad0/FYP-ASAG",
   },
   {
@@ -16,6 +28,8 @@ const aiProjects = [
     category: "Machine Learning",
     tools: "Python, Bayesian Networks, Logistic Regression, XGBoost",
     image: "/images/work/medical_diagnosis.png",
+    summary:
+      "Developed a probabilistic risk scoring pipeline for clinical features and symptoms. Compared Bayesian inference with baseline classifiers and designed interpretable outputs that help explain risk drivers instead of only returning a black-box score.",
     link: "https://github.com/MohammadAsad0/Medical-Diagnosis-Risk-Scoring-using-Bayesian-Networks",
   },
   {
@@ -23,6 +37,8 @@ const aiProjects = [
     category: "LLMs + NLP",
     tools: "Python, LLMs, Prompt Engineering, Summarization, Hallucination Reduction",
     image: "/images/work/nlg.png",
+    summary:
+      "Designed prompts and evaluation routines that convert structured datasets into readable narratives. The workflow emphasizes factual grounding and post-generation checks to reduce hallucinations and improve reliability for analytical reporting.",
     link: "https://github.com/MohammadAsad0/Final-Data-Mining-Project",
   },
   {
@@ -30,6 +46,8 @@ const aiProjects = [
     category: "Data Analytics + Visualization",
     tools: "Python, Jupyter, Pandas, EDA, Large-scale Open Datasets",
     image: "/images/placeholder.webp",
+    summary:
+      "Analyzed open transit data to identify demand patterns by route, day, and season. Produced reproducible notebooks and visual summaries to support service planning and communicate trends to non-technical stakeholders.",
     link: "https://github.com/MohammadAsad0/TTC-PULSE",
   },
   {
@@ -37,34 +55,46 @@ const aiProjects = [
     category: "Computer Vision",
     tools: "Python, OpenCV, ROI Tracking, Classification",
     image: "/images/work/vehicle_counting.png",
+    summary:
+      "Implemented lane-level counting and class estimation using frame differencing, ROI constraints, and object tracking heuristics. Optimized the pipeline for stable counting under varying traffic density and camera perspectives.",
   },
 ];
 
-const devProjects = [
+const devProjects: Project[] = [
+  {
+    title: "ShiaStream",
+    category: "Streaming Web Application",
+    tools: "React, Next.js, Node.js, Vercel, Responsive UI",
+    image: "/images/work/shiastream.png",
+    summary:
+      "Built a production streaming platform focused on fast content discovery, responsive playback surfaces, and clean cross-device UX. The deployment pipeline uses Vercel for rapid releases and consistent performance in production.",
+    link: "https://shiastream.com",
+    ctaLabel: "View on Web",
+  },
   {
     title: "Al-Habib Core Banking Trade Modules",
     category: "Enterprise Banking Platform",
     tools: "Vue.js, Java REST APIs, Node.js FSM, Microservices",
     image: "/images/work/ahbs.png",
+    summary:
+      "Delivered and maintained trade workflow modules for an enterprise banking stack. Implemented front-end flows and service integrations across microservices while preserving strict business rules and transaction integrity.",
   },
   {
     title: "Finance App (Metal)",
     category: "Fintech Mobile Application",
     tools: "React Native, React.js, Stripe SDK, Plaid SDK",
     image: "/images/work/metal.png",
+    summary:
+      "Contributed to a cross-border fintech experience with payments and account-linking flows. Integrated third-party financial APIs and improved the reliability of critical onboarding and transaction interactions.",
   },
   {
     title: "Encrypted QR Vault",
     category: "Secure Web Application",
     tools: "MERN Stack (MongoDB, Express.js, React.js, Node.js), Authentication, QR-based File Sharing",
     image: "/images/work/vault.png",
+    summary:
+      "Created a secure document-sharing system where access is gated through authentication and QR-based retrieval. Focused on encryption-aware storage flow design and practical usability for non-technical users.",
     link: "https://github.com/MohammadAsad0/EncryptedVault",
-  },
-  {
-    title: "Media Player",
-    category: "Android Application",
-    tools: "Java, Firebase, Android Studio",
-    image: "/images/work/media_player.png",
   },
 ];
 
@@ -211,6 +241,9 @@ const Work = () => {
                         <p className="carousel-category">
                           {project.category}
                         </p>
+                        {project.summary && (
+                          <p className="carousel-summary">{project.summary}</p>
+                        )}
                         <div className="carousel-tools">
                           <span className="tools-label">Tools & Features</span>
                           <p>{project.tools}</p>
@@ -223,7 +256,7 @@ const Work = () => {
                             className="carousel-github-link"
                             data-cursor="disable"
                           >
-                            View on GitHub <MdArrowOutward />
+                            {project.ctaLabel ?? "View on GitHub"} <MdArrowOutward />
                           </a>
                         )}
                       </div>

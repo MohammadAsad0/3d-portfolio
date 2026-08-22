@@ -139,6 +139,14 @@
   font-size: 16px;
 }
 
+.carousel-summary {
+  margin: 10px 0 0;
+  color: #c9c7c7;
+  line-height: 1.55;
+  font-size: 14px;
+  max-width: 62ch;
+}
+
 .carousel-tools {
   margin-top: 16px;
 }

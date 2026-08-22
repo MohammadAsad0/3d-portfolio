@@ -35,6 +35,12 @@ const Contact = () => {
             >
               Instagram <MdArrowOutward />
             </a>
+            <a href="/privacy-policy.html" data-cursor="disable" className="contact-social">
+              Privacy Policy <MdArrowOutward />
+            </a>
+            <a href="/terms.html" data-cursor="disable" className="contact-social">
+              Terms of Use <MdArrowOutward />
+            </a>
           </div>
           <div className="contact-box">
             <h2>
