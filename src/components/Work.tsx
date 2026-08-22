@@ -74,9 +74,9 @@ const devProjects = [
     link: "https://github.com/MohammadAsad0/EncryptedVault",
   },
   {
-    title: "Media Player",
-    category: "Android Application",
-    tools: "Java, Firebase, Android Studio",
+    title: "Media Streaming Application",
+    category: "Cross-Platform Mobile App",
+    tools: "React Native, TypeScript, Firebase, Stripe, Python (recommendations), Vercel",
     image: "/images/work/media_player.png",
   },
 ];
